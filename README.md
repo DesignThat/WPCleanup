@@ -26,7 +26,7 @@ WP Cleanup is a lightweight and customizable plugin designed to streamline the i
 
 ## Support
 
-For support or questions, please contact DesignThat Cloud at [insert your support email or website link].
+For support or questions, please contact DesignThat Cloud at https://designthat.cloud/open-ticket/hosting?subject=WPCleanup.
 
 ## Changelog
 
@@ -35,9 +35,9 @@ For support or questions, please contact DesignThat Cloud at [insert your suppor
 
 ## Contributing
 
-We welcome contributions to improve WP Cleanup! Please submit pull requests or open issues on [GitHub repository link - if applicable].
+We welcome contributions to improve WP Cleanup! Please submit pull requests or open issues on our [GitHub repository](https://github.com/DesignThat/WPCleanup/).
 
 ## Copyright and License
 
 WP Cleanup is licensed under the [GPLv3 or later]([https://www.gnu.org/licenses/gpl-3.0.html]). 
-Copyright (c) [Year] DesignThat Cloud
+Copyright (c) 2024 DesignThat Cloud
