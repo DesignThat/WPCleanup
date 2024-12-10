@@ -34,6 +34,9 @@ class WP_Cleanup_Admin {
     }
 
     public function render_admin_page() {
+        if (!current_user_can('manage_options')) {
+            wp_die(__('You do not have sufficient permissions to access this page.'));
+        }
         ?>
         <div class="wpcleanup-container">
             <div class="wpcleanup-header">
@@ -51,19 +54,31 @@ class WP_Cleanup_Admin {
 
     private function verify_request($action) {
         if (!current_user_can('manage_options')) {
-            wp_die('Unauthorized');
+            wp_die(__('You do not have sufficient permissions to access this page.'));
         }
-        check_admin_referer('wpcleanup_' . $action, 'wpcleanup_nonce');
+
+        if (!isset($_POST['wpcleanup_nonce']) || 
+            !wp_verify_nonce($_POST['wpcleanup_nonce'], 'wpcleanup_' . $action)) {
+            wp_die(__('Security check failed. Please try again.'));
+        }
+
+        return true;
     }
 
     private function handle_action($action, $method) {
-        $this->verify_request($action);
-        call_user_func(array('WP_Cleanup', $method));
-        wp_redirect(add_query_arg(
-            array('page' => 'wpcleanup', 'message' => $action . '-cleaned'),
-            admin_url('tools.php')
-        ));
-        exit;
+        if ($this->verify_request($action)) {
+            if (call_user_func(array('WP_Cleanup', $method))) {
+                $redirect_url = add_query_arg(
+                    array(
+                        'page' => 'wpcleanup',
+                        'message' => $action . '-cleaned'
+                    ),
+                    admin_url('tools.php')
+                );
+                wp_safe_redirect($redirect_url);
+                exit;
+            }
+        }
     }
 
     public function handle_clean_default() {

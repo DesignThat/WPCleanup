@@ -1,12 +1,13 @@
 <?php
 class WP_Cleanup_Cards {
     public static function render_card($title, $description, $action, $button_text, $danger = false) {
+        $nonce = wp_create_nonce('wpcleanup_' . $action);
         ?>
         <div class="wpcleanup-card">
             <h2><?php echo esc_html($title); ?></h2>
             <p><?php echo esc_html($description); ?></p>
-            <form method="post" action="<?php echo admin_url('admin-post.php'); ?>">
-                <?php wp_nonce_field('wpcleanup_' . $action, 'wpcleanup_nonce'); ?>
+            <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
+                <input type="hidden" name="wpcleanup_nonce" value="<?php echo esc_attr($nonce); ?>">
                 <input type="hidden" name="action" value="wpcleanup_<?php echo esc_attr($action); ?>">
                 <button type="submit" class="wpcleanup-button<?php echo $danger ? ' wpcleanup-button-danger' : ''; ?>">
                     <?php echo esc_html($button_text); ?>
